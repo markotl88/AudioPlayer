@@ -435,3 +435,35 @@ extension AudioPlayer: EventListener {
         }
     }
 }
+
+public class DMAudioPlayer: AudioPlayer {
+    
+    override public func remoteControlReceived(with event: UIEvent) {
+        guard event.type == .remoteControl else {
+            return
+        }
+        
+        switch event.subtype {
+        case .remoteControlNextTrack:
+            if let currentTime = currentItemProgression {
+                seek(to: currentTime + 30)
+            }
+            break
+        case .remoteControlPause,
+             .remoteControlTogglePlayPause where state.isPlaying:
+            pause()
+        case .remoteControlPlay,
+             .remoteControlTogglePlayPause where state.isPaused:
+            resume()
+        case .remoteControlPreviousTrack:
+            if let currentTime = currentItemProgression {
+                seek(to: currentTime - 30)
+            }
+            break
+        case .remoteControlStop:
+            stop()
+        default:
+            break
+        }
+    }
+}
