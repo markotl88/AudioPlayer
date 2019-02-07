@@ -451,7 +451,11 @@ public class DMAudioPlayer: AudioPlayer {
             break
         case .remoteControlPause,
              .remoteControlTogglePlayPause where state.isPlaying:
-            pause()
+            if let currentItem = currentItem, currentItem.streamingType == .livestream {
+                stop()
+            } else {
+                pause()
+            }
         case .remoteControlPlay,
              .remoteControlTogglePlayPause where state.isPaused:
             resume()
