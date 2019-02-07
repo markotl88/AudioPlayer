@@ -52,7 +52,7 @@ public class AudioPlayer: NSObject {
     var queue: AudioItemQueue?
 
     /// The audio player.
-    var player: AVPlayer? {
+    public var player: AVPlayer? {
         didSet {
             if #available(OSX 10.11, *) {
                 player?.allowsExternalPlayback = false

@@ -81,7 +81,8 @@ extension AudioPlayer {
     /// Stops the player and clear the queue.
     public func stop() {
         retryEventProducer.stopProducingEvents()
-
+        player?.pause()
+        
         if let _ = player {
             player?.rate = 0
             player = nil
@@ -93,7 +94,13 @@ extension AudioPlayer {
             queue = nil
         }
 
-        setAudioSession(active: false)
+        if #available(iOS 10.0, *) {
+            Timer.scheduledTimer(withTimeInterval: 0.1, repeats: false) { [weak self] (_ ) in
+                self?.setAudioSession(active: false)
+            }
+        } else {
+            setAudioSession(active: false)
+        }
         state = .stopped
     }
 
