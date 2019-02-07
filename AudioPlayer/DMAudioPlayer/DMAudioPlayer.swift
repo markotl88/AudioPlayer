@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DMAudioPlayer: AudioPlayer {
+public class DMAudioPlayer: AudioPlayer {
     
     override func remoteControlReceived(with event: UIEvent) {
         guard event.type == .remoteControl else {
