@@ -17,6 +17,9 @@ extension MPNowPlayingInfoCenter {
     ///   - progression: The current progression.
     ///   - playbackRate: The current playback rate.
     func ap_update(with item: AudioItem, duration: TimeInterval?, progression: TimeInterval?, playbackRate: Float) {
+        
+        let center = MPRemoteCommandCenter.shared()
+
         var info = [String: Any]()
         if let title = item.title {
             info[MPMediaItemPropertyTitle] = title
@@ -46,6 +49,9 @@ extension MPNowPlayingInfoCenter {
         if #available(iOS 10.0, *) {
             if item.streamingType == .livestream {
                 info[MPNowPlayingInfoPropertyIsLiveStream] = true
+                [center.nextTrackCommand, center.previousTrackCommand, center.changeRepeatModeCommand, center.changeShuffleModeCommand, center.changePlaybackRateCommand, center.seekBackwardCommand, center.seekForwardCommand, center.skipBackwardCommand, center.skipForwardCommand, center.changePlaybackPositionCommand, center.ratingCommand, center.likeCommand, center.dislikeCommand, center.bookmarkCommand].forEach {
+                    $0.isEnabled = false
+                }
             } else {
                 info[MPNowPlayingInfoPropertyIsLiveStream] = false
             }
