@@ -54,6 +54,14 @@ public struct AudioItemURL {
     }
 }
 
+// MARK: - StreamingType
+
+/// Streaming type for Remote command center
+public enum StreamingType {
+    case livestream
+    case podcast
+}
+
 // MARK: - AudioItem
 
 /// An `AudioItem` instance contains every piece of information needed for an `AudioPlayer` to play.
@@ -62,6 +70,8 @@ public struct AudioItemURL {
 open class AudioItem: NSObject {
     /// Returns the available qualities.
     public let soundURLs: [AudioQuality: URL]
+    
+    public var streamingType: StreamingType
 
     // MARK: Initialization
 
@@ -73,7 +83,8 @@ open class AudioItem: NSObject {
     ///   - lowQualitySoundURL: The URL for the low quality sound.
     public convenience init?(highQualitySoundURL: URL? = nil,
                              mediumQualitySoundURL: URL? = nil,
-                             lowQualitySoundURL: URL? = nil) {
+                             lowQualitySoundURL: URL? = nil,
+                             streamingType: StreamingType = .podcast) {
         var URLs = [AudioQuality: URL]()
         if let highURL = highQualitySoundURL {
             URLs[.high] = highURL
@@ -84,14 +95,15 @@ open class AudioItem: NSObject {
         if let lowURL = lowQualitySoundURL {
             URLs[.low] = lowURL
         }
-        self.init(soundURLs: URLs)
+        self.init(soundURLs: URLs, streamingType: streamingType)
     }
 
     /// Initializes an `AudioItem`.
     ///
     /// - Parameter soundURLs: The URLs of the sound associated with its quality wrapped in a `Dictionary`.
-    public init?(soundURLs: [AudioQuality: URL]) {
+    public init?(soundURLs: [AudioQuality: URL], streamingType: StreamingType) {
         self.soundURLs = soundURLs
+        self.streamingType = streamingType
         super.init()
 
         if soundURLs.isEmpty {

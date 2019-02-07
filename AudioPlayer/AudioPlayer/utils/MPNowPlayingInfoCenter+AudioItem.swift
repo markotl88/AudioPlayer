@@ -43,6 +43,13 @@ extension MPNowPlayingInfoCenter {
             info[MPNowPlayingInfoPropertyElapsedPlaybackTime] = progression
         }
         info[MPNowPlayingInfoPropertyPlaybackRate] = playbackRate
+        if #available(iOS 10.0, *) {
+            if item.streamingType == .livestream {
+                info[MPNowPlayingInfoPropertyIsLiveStream] = true
+            } else {
+                info[MPNowPlayingInfoPropertyIsLiveStream] = false
+            }
+        }
 
         nowPlayingInfo = info
     }
