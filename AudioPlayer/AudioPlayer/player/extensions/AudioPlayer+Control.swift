@@ -167,7 +167,7 @@ extension AudioPlayer {
     /// Handle events received from Control Center/Lock screen/Other in UIApplicationDelegate.
     ///
     /// - Parameter event: The event received.
-    public func remoteControlReceived(with event: UIEvent) {
+    @objc public func remoteControlReceived(with event: UIEvent) {
         guard event.type == .remoteControl else {
             return
         }
