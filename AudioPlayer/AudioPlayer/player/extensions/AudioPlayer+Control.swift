@@ -116,9 +116,10 @@ extension AudioPlayer {
     ///         if the operation has finished.
     public func seek(to time: TimeInterval,
                      byAdaptingTimeToFitSeekableRanges: Bool = false,
-                     toleranceBefore: CMTime = kCMTimePositiveInfinity,
-                     toleranceAfter: CMTime = kCMTimePositiveInfinity,
-                     completionHandler: ((Bool) -> Void)? = nil) {
+                     toleranceBefore: CMTime = CMTime.positiveInfinity,
+                     toleranceAfter: CMTime = CMTime.positiveInfinity,
+                     completionHandler: ((Bool) -> Void)? = nil)
+    {
         guard let earliest = currentItemSeekableRange?.earliest,
             let latest = currentItemSeekableRange?.latest else {
                 //In case we don't have a valid `seekableRange`, although this *shouldn't* happen
@@ -210,9 +211,10 @@ extension AudioPlayer {
 extension AudioPlayer {
     
     fileprivate func seekSafely(to time: TimeInterval,
-              toleranceBefore: CMTime = kCMTimePositiveInfinity,
-              toleranceAfter: CMTime = kCMTimePositiveInfinity,
-              completionHandler: ((Bool) -> Void)?) {
+                                toleranceBefore: CMTime = CMTime.positiveInfinity,
+                                toleranceAfter: CMTime = CMTime.positiveInfinity,
+                                completionHandler: ((Bool) -> Void)?)
+    {
         guard let completionHandler = completionHandler else {
             player?.seek(to: CMTime(timeInterval: time), toleranceBefore: toleranceBefore,
                          toleranceAfter: toleranceAfter)
